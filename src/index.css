@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'NEODGM';
+  src: url('./assets/NEODGM.TTF') format('truetype');
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh; 
+  margin: 0;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'NEODGM', sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.fontLarge {
+  font-size: 48px;
+}
+
+.fontTime {
+  font-size : 32px;
+}
+
+.fontMedium {
+  font-size : 24px;
+}
+
+.fontSmall {
+  font-size: 16px;
+}
+
