@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'NEODGM';
-  src: url('./assets/NEODGM.TTF') format('truetype');
+  src: url('./assets/fonts/NEODGM.TTF') format('truetype');
 }
 
 body {
@@ -8,7 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh; 
+  height: 100vh;
   margin: 0;
   background-color: black;
   display: flex;
@@ -27,14 +27,13 @@ code {
 }
 
 .fontTime {
-  font-size : 32px;
+  font-size: 32px;
 }
 
 .fontMedium {
-  font-size : 24px;
+  font-size: 24px;
 }
 
 .fontSmall {
   font-size: 16px;
 }
-

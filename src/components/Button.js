@@ -1,9 +1,12 @@
 export default function Button(props) {
-    return (
-        <>
-        <div className="ButtonContainer">
-            {props.value}
-        </div>
-        </>
-    )
+  const handleClick = () => {
+    props.onClick();
+  };
+  return (
+    <>
+      <div onClick={handleClick} className="buttonContainer">
+        {props.value}
+      </div>
+    </>
+  );
 }
