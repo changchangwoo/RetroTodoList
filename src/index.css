@@ -37,3 +37,7 @@ code {
 .fontSmall {
   font-size: 16px;
 }
+
+.btn:hover {
+background-color: grey;
+}

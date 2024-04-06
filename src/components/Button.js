@@ -4,7 +4,7 @@ export default function Button(props) {
   };
   return (
     <>
-      <div onClick={handleClick} className="buttonContainer">
+      <div onClick={handleClick} className="buttonContainer btn">
         {props.value}
       </div>
     </>

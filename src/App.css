@@ -92,11 +92,6 @@
   margin: auto;
   margin-top: 50px;
 }
-
-.buttonContainer:hover {
-  background-color: grey;
-}
-
 /* Main */
 .mainContainer {
   width: 868px;
@@ -147,6 +142,9 @@
   box-sizing: border-box;
 }
 
+.todoContentBox:hover {
+  opacity: 0.8;
+}
 .todoText {
   flex: 0.8;
   box-sizing: border-box;
@@ -159,6 +157,9 @@
 
 .todoDate {
   flex: 0.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .todoCheckButton {
@@ -176,6 +177,14 @@
   margin: 5px;
   margin-left: 0px;
   border: 1px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoDeleteButton > img {
+  width: 26px;
+  height: 26px;
 }
 
 .modalBackground {
