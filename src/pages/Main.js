@@ -28,18 +28,6 @@ export default function Main() {
     };
   }, []);
 
-  const tick = () => {
-    setCurrentTime(new Date());
-  };
-
-  const handlButton = () => {
-    setIsModalAdd(true);
-  };
-
-  const handleUpdate = () => {
-    setIsModalUpdate(true)
-  }
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (isModalAdd && !addRef.current.contains(e.target)) setIsModalAdd(false)
@@ -52,6 +40,17 @@ export default function Main() {
     };
   }, [isModalAdd, isModalUpdate]);
 
+  const tick = () => {
+    setCurrentTime(new Date());
+  };
+
+  const handlButton = () => {
+    setIsModalAdd(true);
+  };
+
+  const handleUpdate = () => {
+    setIsModalUpdate(true)
+  }
 
   return (
     <>
