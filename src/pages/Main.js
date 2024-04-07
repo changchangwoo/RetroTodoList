@@ -3,11 +3,13 @@ import ModalUpdate from "../components/ModalUpdate";
 
 import Button from "../components/Button";
 import TodoContentBox from "../components//TodoContentBox";
-import {useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Main() {
+  const addRef = useRef(null)
+  const updateRef = useRef(null)
   const [isModalAdd, setIsModalAdd] = useState(false);
-  const [istModalUpdate, setIsModalUpdate] = useState(false)
+  const [isModalUpdate, setIsModalUpdate] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
 
   const formattedTime = currentTime.toLocaleString('ko-KR', {
@@ -37,18 +39,31 @@ export default function Main() {
   const handleUpdate = () => {
     setIsModalUpdate(true)
   }
-  
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (isModalAdd && !addRef.current.contains(e.target)) setIsModalAdd(false)
+      if (isModalUpdate && !updateRef.current.contains(e.target)) setIsModalUpdate(false)
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isModalAdd, isModalUpdate]);
+
 
   return (
     <>
-      {istModalUpdate && <ModalUpdate time={formattedTime}/>}
-      {isModalAdd && <ModalAdd time={formattedTime} />}
-      <div className="mainContainer" style={{ opacity: (isModalAdd||istModalUpdate) ? 0.4 : 1 }}>
+      <p style={{ color: "white" }}>{isModalAdd}</p>
+      {isModalUpdate && <ModalUpdate time={formattedTime} ref={updateRef} />}
+      {isModalAdd && <ModalAdd time={formattedTime} ref={addRef} />}
+      <div className="mainContainer" style={{ opacity: (isModalAdd || isModalUpdate) ? 0.4 : 1 }}>
         <div className="modalLogo fontLarge">오늘 할 일!</div>
         <div className="modalSubLogo fontTime">{formattedTime}</div>
         <div className="mainTodoBox">
           <TodoContentBox text="인강보는척 하면서 몰래 유튜브 보기"
-          handleUpdate={handleUpdate}/>
+            handleUpdate={handleUpdate} />
         </div>
         <Button value="추가하기" onClick={handlButton} />
       </div>
