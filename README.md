@@ -1,2 +1,2 @@
 # RetroTodoList
-Toy_Project, RetroTodoList for React Practice
+TOY_RetroTodoList
