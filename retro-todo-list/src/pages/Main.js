@@ -13,6 +13,9 @@ export default function Main() {
   const [isModalUpdate, setIsModalUpdate] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [cookies, setCookies] = useCookies(['id'])
+  const [listID, setListID] = useState('')
+  const [listArr, setListArr] = useState([])
+  const [curText, setCurText] = useState('')
 
   const formattedTime = currentTime.toLocaleString('ko-KR', {
     year: 'numeric',
@@ -22,8 +25,16 @@ export default function Main() {
     minute: '2-digit',
     second: '2-digit',
   });
-
   useEffect(() => {
+    API.get('/lists', {
+      headers: {
+        'Authorization': cookies.id
+      }
+    }).then(response => {
+      setListArr (response.data)
+    }).catch(error => {
+      console.log(error)
+    })
   }, [])
 
   useEffect(() => {
@@ -50,34 +61,33 @@ export default function Main() {
   };
 
   const handlButton = () => {
-      console.log(cookies.id)
-      API.get('/lists', {
-        headers: {
-          'Authorization': cookies.id
-        }
-      }).then(response => {
-        console.log(response)
-      }).catch(error => {
-        console.log(error)
-      })
+
     setIsModalAdd(true);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (id, context) => {
+    setListID(id)
+    setCurText(context)
     setIsModalUpdate(true)
   }
 
   return (
     <>
       <p style={{ color: "white" }}>{isModalAdd}</p>
-      {isModalUpdate && <ModalUpdate time={formattedTime} ref={updateRef} />}
+      {isModalUpdate && <ModalUpdate time={formattedTime} ref={updateRef} id={listID} text={curText} />}
       {isModalAdd && <ModalAdd time={formattedTime} ref={addRef} />}
       <div className="mainContainer" style={{ opacity: (isModalAdd || isModalUpdate) ? 0.4 : 1 }}>
         <div className="modalLogo fontLarge">오늘 할 일!</div>
         <div className="modalSubLogo fontTime">{formattedTime}</div>
         <div className="mainTodoBox">
-          <TodoContentBox text="인강보는척 하면서 몰래 유튜브 보기"
-            handleUpdate={handleUpdate} />
+        <ul>
+        {/* 배열의 각 요소에 대해 JSX 요소를 생성 */}
+        {listArr.map((item, index) => (
+          <li key={index}><TodoContentBox text={item.context} id={item.id} user={item.user_id} state={item.checked}
+          handleUpdate={handleUpdate} /></li>
+        ))}
+      </ul>
+
         </div>
         <Button value="추가하기" onClick={handlButton} />
       </div>

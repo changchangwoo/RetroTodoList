@@ -7,6 +7,33 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 router.use(express.json())
 
+const validate = (req, res, next) => {
+    const err = validationResult(req);
+    if (err.isEmpty()) {
+        return next()
+    } else {
+        console.log(err)
+        return res.status(400).json(err.array())
+    }
+}
+
+// 로그인/비밀번호 확인
+router.post("/check"
+,(req, res, next) => {
+    const {userId} = req.body;
+    console.log(userId)
+    let sql = `SELECT * FROM users WHERE id = ?`
+    conn.query(sql, userId, (err, results) => {
+        console.log(results.length)
+        if(results.length > 0) {
+            console.log(err)
+            res.status(400).send("에러")
+        } else {
+            res.status(200).send("성공")
+        }
+    })
+})
+
 // 회원가입
 router.post("/join",
     [body("userId").notEmpty().withMessage("아이디 비어있음"),
@@ -24,7 +51,7 @@ router.post("/join",
             }
         })
     })
-    
+
 //로그인
 router.post("/login",
     [body("userId").notEmpty().withMessage("아이디 비어있음"),
@@ -40,7 +67,7 @@ router.post("/login",
             }
             let loginUser = results[0]
             if(loginUser && loginUser.password === userPW) {
-                const token = jwt.sign(
+                let token = jwt.sign(
                     {
                         userId : loginUser.id,
                     },
@@ -55,7 +82,7 @@ router.post("/login",
                     token : token
                 }) // 로그인 성공을 알리는 메세지
             } else {
-                res.status(200).json({message : '로그인 실패를 알리는 메세지'})
+                res.status(400).json({message : '로그인 실패를 알리는 메세지'})
             }
 
         })
