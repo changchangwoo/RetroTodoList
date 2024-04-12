@@ -12,7 +12,6 @@ export default function Login() {
   const [userId, setUserId] = useState('')
   const [userPW, setUserPW] = useState('')
   const [failCheck, setFailCheck] = useState(false)
-  const [cookie, setCookie] = useCookies(['id']);
 
   const handleLogin = (event) => {
     if(event.key === 'Enter') {
@@ -21,7 +20,6 @@ export default function Login() {
         userPW: userPW
       }).then(response => {
         if(response.status === 200) {
-          setCookie('id', response.data.token)
           navigate("/Main")
         }
       }).catch(error => {

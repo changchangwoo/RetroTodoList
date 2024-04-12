@@ -3,12 +3,8 @@ import Button from "./Button";
 import Modal from "./Modal";
 import { useCookies } from 'react-cookie';
 import API from "../utils/api";
-import { useNavigate } from "react-router-dom";
-
 
 const ModalAdd = forwardRef((props, ref) => {
-  const navigate = useNavigate();
-
   const [textField, setTextFiled] = useState('')
   const [cookies, setCookies] = useCookies(['id'])
 

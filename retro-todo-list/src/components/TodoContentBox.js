@@ -4,11 +4,13 @@ import API from "../utils/api";
 
 export default function TodoContentBox(props) {
   const [isTodoCheck, setIsTodoCheck] = useState(false)
+  const [date, setDate] = useState('')
   const handleUpdate = () => {
     props.handleUpdate(props.id, props.text);
   }
 
   useEffect(() => {
+    setDate(props.date.split(' ')[0])
     if(props.state === 1) setIsTodoCheck(true) 
   }, [])
 
@@ -41,7 +43,7 @@ export default function TodoContentBox(props) {
       <div className="todoContentBox" onClick={handleUpdate}
       style={{backgroundColor : isTodoCheck ? "grey" : "black"}}>
         <div className="todoText fontMedium"> * {props.text}</div>
-        <div className="todoDate">2024. 04. 06</div>
+        <div className="todoDate">{date}</div>
         <div className="todoCheckButton btn"
         onClick={handleCheck}></div>
         <div className="todoDeleteButton btn" onClick={handleDelete}>

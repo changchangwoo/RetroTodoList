@@ -3,10 +3,10 @@ const router = express.Router()
 
 const conn = require('../dbconfig.js')
 const { body, param, validationResult } = require("express-validator")
-const jwt = require("jsonwebtoken")
-const jwtHandler = require("../utils/jwt.js")
 require("dotenv").config()
 router.use(express.json())
+const decodeToken = require("../utils/jwt.js");
+
 
 const validate = (req, res, next) => {
     const err = validationResult(req);
@@ -22,7 +22,7 @@ const validate = (req, res, next) => {
 router.post("/",
     [body("context").notEmpty().isString().withMessage("내용이 비어있음"),
     body("token").notEmpty().isString().withMessage("사용자 아이디가 비어있음"),
-        validate],
+    validate],
     (req, res, err) => {
         const { token, context } = req.body;
         let sql = `INSERT INTO lists (context, user_id) VALUES (?,?)`;
@@ -40,11 +40,9 @@ router.post("/",
     })
 
 // 리스트 출력
-router.get("/",
-    (req, res, next) => {
-        const authHeader = req.headers['authorization'];
-        let decodedToken = jwtHandler.decodeToken(authHeader)
-        let token = decodedToken.userId
+router.get("/",decodeToken,
+    (req, res,) => {
+        const token = req.decodeToken.userId
         let sql = `SELECT * FROM lists WHERE user_id = ?`;
         conn.query(sql, token, (err, results, field) => {
             if (err) {

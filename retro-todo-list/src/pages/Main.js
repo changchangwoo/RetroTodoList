@@ -26,11 +26,7 @@ export default function Main() {
     second: '2-digit',
   });
   useEffect(() => {
-    API.get('/lists', {
-      headers: {
-        'Authorization': cookies.id
-      }
-    }).then(response => {
+    API.get('/lists').then(response => {
       setListArr (response.data)
     }).catch(error => {
       console.log(error)
@@ -83,7 +79,7 @@ export default function Main() {
         <ul>
         {/* 배열의 각 요소에 대해 JSX 요소를 생성 */}
         {listArr.map((item, index) => (
-          <li key={index}><TodoContentBox text={item.context} id={item.id} user={item.user_id} state={item.checked}
+          <li key={index}><TodoContentBox text={item.context} id={item.id} user={item.user_id} state={item.checked} date={item.created_at}
           handleUpdate={handleUpdate} /></li>
         ))}
       </ul>
