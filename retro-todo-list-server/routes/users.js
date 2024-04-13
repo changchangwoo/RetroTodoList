@@ -1,89 +1,15 @@
 const express = require("express")
 const router = express.Router()
-
-const conn = require('../dbconfig.js')
-const { body, param, validationResult } = require("express-validator")
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
+const {check, join, login} = require("../controller/UserController")
 router.use(express.json())
 
-const validate = (req, res, next) => {
-    const err = validationResult(req);
-    if (err.isEmpty()) {
-        return next()
-    } else {
-        console.log(err)
-        return res.status(400).json(err.array())
-    }
-}
-
 // 로그인/비밀번호 확인
-router.post("/check"
-,(req, res, next) => {
-    const {userId} = req.body;
-    console.log(userId)
-    let sql = `SELECT * FROM users WHERE id = ?`
-    conn.query(sql, userId, (err, results) => {
-        console.log(results.length)
-        if(results.length > 0) {
-            console.log(err)
-            res.status(400).send("에러")
-        } else {
-            res.status(200).send("성공")
-        }
-    })
-})
+router.post("/check",check)
 
 // 회원가입
-router.post("/join",
-    [body("userId").notEmpty().withMessage("아이디 비어있음"),
-    body("userPW").notEmpty().withMessage("비밀번호 비어있음")],
-    (req, res, next) => {
-        const { userId, userPW } = req.body;
-        let sql = `INSERT INTO users (id, password) VALUES (?,?)`;
-        let values = [userId, userPW]
-        conn.query(sql, values, (err, results, field) => {
-            if (err) {
-                console.log(err)
-                res.status(400).json({ message: '에러를 처리하는 메세지(회원가입 오류)' })
-            } else {
-                res.status(201).json(results);
-            }
-        })
-    })
+router.post("/join",join)
 
 //로그인
-router.post("/login",
-    [body("userId").notEmpty().withMessage("아이디 비어있음"),
-    body("userPW").notEmpty().withMessage("비밀번호 비어있음")],
-    (req, res) => {
-        const { userId, userPW } = req.body;
-        console.log(userId, userPW)
-        let sql = `SELECT * FROM users WHERE id = ?`;
-        conn.query(sql, userId, (err, results, field) => {
-            if (err) {
-                console.log(err)
-                return res.status(400).json({ message: '에러를 처리하는 메세지(로그인 오류)' })
-            }
-            let loginUser = results[0]
-            if(loginUser && loginUser.password === userPW) {
-                let token = jwt.sign(
-                    {
-                        userId : loginUser.id,
-                    },
-                    process.env.TOKEN_KEY,
-                    {
-                        expiresIn: "3h",
-                        issuer : "changchangwoo"
-                    }
-                )
-                res.cookie('id', token, { httpOnly: true }); // 쿠키로 사용자에게 토큰을 응답한다
-                res.status(200).send('동작완료')
-            } else {
-                return res.status(400).json({message : '로그인 실패를 알리는 메세지'})
-            }
-
-        })
-    })
+router.post("/login",login)
 
 module.exports = router

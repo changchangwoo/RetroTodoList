@@ -11,7 +11,6 @@ const ModalAdd = forwardRef((props, ref) => {
   const handleAdd = () => {
     API.post('/lists', {
       context : textField,
-      token : cookies.id
     }).then(response => {
       window.location.reload();
     }).catch(error => {

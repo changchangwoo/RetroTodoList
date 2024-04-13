@@ -12,5 +12,6 @@ app.use(cookieParser())
 
 const userRouter = require("./routes/users");
 const listRouter = require("./routes/lists");
+
 app.use("/users", userRouter);
 app.use("/lists", listRouter);
