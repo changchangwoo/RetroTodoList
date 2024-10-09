@@ -28,4 +28,4 @@
 * 할일은 체크를 통해 구분 할 수 있으며 등록, 수정, 삭제가 가능합니다.
 * 할일 등록시 DB 데이터 생성, 수정시 DB 데이터 수정, 삭제시 DB 데이터가 삭제되어집니다.
 
-구체적인 트러블 슈팅 및 설계/구현 과정은 <a href="https://velog.io/@changwoo/Todo-List-%EB%A7%8C%EB%93%A4%EA%B8%B0-retro-todo-list">당신의 순발력을 평가해드립니다, 삼행시의 왕</a> 에서 확인 하실 수 있습니다.
+구체적인 트러블 슈팅 및 설계/구현 과정은 <a href="https://velog.io/@changwoo/Todo-List-%EB%A7%8C%EB%93%A4%EA%B8%B0-retro-todo-list">Todo List 만들기, retro-todo-list</a> 에서 확인 하실 수 있습니다.
